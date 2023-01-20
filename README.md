@@ -1,9 +1,9 @@
 # Overview
 This is the code for paper [Effective Few-Shot Named Entity Linking by
-Meta-Learning](https://arxiv.org/pdf/2207.05280.pdf)
+Meta-Learning](https://arxiv.org/pdf/2207.05280.pdf).
 
 ## Preparation
-MetaBLINK is built on the BLINK model, so firstly, you should clone and get familiar with [it](https://github.com/facebookresearch/BLINK).
+MetaBLINK is built on the BLINK model, so firstly, you should clone and get familiar with [BLINK](https://github.com/facebookresearch/BLINK).
 Please download the zero-shot entity linkint dataset and put the it under the `./data/zeshel` folder.
 ## Exact Matching
 ```
@@ -27,5 +27,5 @@ python filter.py
 The model training procedure is almost the same as BLINK model. You can refer its repository for training details.
 
 ## Meta Learning
-Please goto the `Meta-Learning` folder for more details.
+In our paper, we apply the meta-learning technique on BLINK. Please goto the `Meta-Learning` folder for more details.
 

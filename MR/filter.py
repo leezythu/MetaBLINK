@@ -46,7 +46,7 @@ while src_line and assi_line:
     title = src_line["label_title"].lower()
     new_m = assi_line["predict"]
     new_m = new_m.replace("<pad>","").replace("</s>","").strip().lower()
-    if len(new_m.split())>2 and len(new_m.split())<4 and title not in exist_entitys and new_m not in exist_mentions and no_overlap(new_m,title) and not contains_number(new_m) and check(new_m):
+    if len(new_m.split()) > 2 and len(new_m.split()) < 4 and title not in exist_entitys and new_m not in exist_mentions and no_overlap(new_m,title) and not contains_number(new_m) and check(new_m):
         succ+=1
         src_line["mention"] = new_m
         exist_entitys.append(title)
