@@ -19,18 +19,6 @@ def exist(text,entitys):
         label_title = text
         match_type = "exact match"
         return flag,label_title,match_type
-    # for entity in entitys: #multi category
-    #     if text == re.sub(r" \(.*\)","",entity):
-    #         flag = True
-    #         label_title = entity
-    #         match_type = "multi category"
-    #         return flag,label_title,match_type
-    # for entity in entitys: #substr matchin
-    #     if text in entity:
-    #         flag = True
-    #         label_title = entity
-    #         match_type = "substr"
-    #         return flag,label_title,match_type
     return flag,label_title,match_type
 
 
@@ -46,9 +34,6 @@ while line:
     cnt += 1
     if cnt%100==0:
         print(cnt)
-    # if cnt>4300 and cnt<4400:
-    #     line = src.readline()
-    #     continue
     text = json.loads(line)["text"]
     from_doc = json.loads(line)["title"]
     try:
@@ -56,24 +41,22 @@ while line:
     except:
         line = src.readline()
         continue
-    # mention_list = []
+    mention_list = []
     entity_list = []
-    doc_flag = False#一个doc最多产生一个sample
+    doc_flag = False
     for sentence in doc.sentences:
         if doc_flag:
             break
         for ent in sentence.ents:
             if doc_flag:
                 break
-            # if ent.text in mention_list:#每个doc里值寻去一次相同的mention，以防冗余
-            #     continue
+            if ent.text in mention_list:
+                continue
             if ent.type == "DATE" or ent.type == "CARDINAL" or ent.type == "ORDINAL":#不要日期
                 continue
             flag, label_title,match_type = exist(ent.text.lower(),field_entitys)
             if flag:
-                # if label_title in entity_list:#每个entity只出现一个sample
-                #     continue
-                if from_doc.lower() == label_title:#自己的文章里肯定会出现很多次自己啦
+                if from_doc.lower() == label_title:
                     continue
                 start,end = ent.start_char,ent.end_char
                 sample = {}
@@ -83,8 +66,6 @@ while line:
                 sample["context_left"] = " ".join(sample["context_left"].split()[-128:])
                 sample["mention"] = ent.text 
                 sample["context_right"] = text[end:]
-                # if len(sample["context_right"].split())<128:
-                #     continue
                 sample["context_right"] = " ".join(sample["context_right"].split()[:128])
                 sample["label_title"] = label_title
                 sample["world"] = field
@@ -95,9 +76,8 @@ while line:
                 if succ_cnt>=max_num:
                     finish_flag = True
                 entity_list.append(label_title)
-                # mention_list.append(ent.text)
+                mention_list.append(ent.text)
                 doc_flag = True
-                # print(ent,label_title)
     line = src.readline()
 src.close()
 out_f.close()
@@ -109,7 +89,6 @@ f.close()
 out_f = open("exact_"+field+".jsonl",'w')
 f = open("exact_"+field+"_tmp.jsonl")
 line = f.readline()
-# print(line)
 while line:
     line = json.loads(line)
     new_line = {}

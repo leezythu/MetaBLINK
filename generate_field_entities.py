@@ -1,6 +1,6 @@
 import json
 field = "yugioh"
-src_f = open("./data/zeshel/documents/"+field+".json")
+src_f = open("./data/zeshel/documents/{}.json".format(field))
 line = src_f.readline()
 entitys = []
 while line:
