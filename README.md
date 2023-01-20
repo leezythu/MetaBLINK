@@ -22,4 +22,4 @@ And further filter out mistakes by running:
 # Model Training
 The model training procedure is almost the same as BLINK model. You can refer its repository for more details.
 # Meta Learning
-In our paper, we apply the meta-learning technique on BLINK. 
+Please see the `Meta-Learning` folder for more details.
