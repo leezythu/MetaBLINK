@@ -5,6 +5,6 @@ We use the [Higher](https://github.com/facebookresearch/higher) tool, which can 
 
 `train_biencoder.py` contains the core code of our MetaBlink, and you can clone the original BLINK repository and replace the training file with ours. 
 Please note that the `train_biencoder.py` requires a large GPU memory, so we also provide a naive version of MetaBlink, `train_biencoder_bs_1.py`. It filters noisy samples one by one (corresponding to batch_size=1), using less GPU memory. 
-In the code, the train_dataloader corresponds to the generated noisy samples, and the meta_dataloader corresponds to the few-shot golden samples.
 
+In the code, the train_dataloader corresponds to the generated noisy samples, and the meta_dataloader corresponds to the few-shot golden samples.
 The crossencoder can be coverted to an meta-learning version in the same way as biencoder.
