@@ -227,10 +227,6 @@ def main(params):
         logger=logger,
         debug=params["debug"],
     )
-    # print("saving "+mode+"_tensor_data....")
-    # torch.save(train_tensor_data,mode+"_tensor_data")
-    # print("loading "+mode+" tensor data...")
-    # train_tensor_data = torch.load(mode+"_tensor_data")
     if params["shuffle"]:
         train_sampler = RandomSampler(train_tensor_data)
     else:
@@ -336,10 +332,7 @@ def main(params):
                     meta_optimizer = get_optimizer(meta_reranker.model, params)
                     #compute ori loss
                     meta_reranker.eval()
-                    # ori_acc = get_acc(meta_reranker,meta_dataloader)
-                    # print("ori_acc:",ori_acc)
                     ori_meta_loss = 0
-                    # for i in range(len(meta_samples)//train_batch_size):#应该正好整除
                     meta_batch = meta_manager.generate_meta_inputs()
                     meta_batch = tuple(t.to(cuda1) for t in meta_batch)
                     context_meta, candidate_meta, _, _ = meta_batch
@@ -351,7 +344,6 @@ def main(params):
                     meta_reranker.train()
                     
                     #update meta model
-                    # meta_loss, _ = meta_reranker(context_input, candidate_input)
                     _, scores = meta_reranker(context_input, candidate_input)
                     target = torch.LongTensor(torch.arange(scores.shape[0]))
                     target = target.to(meta_reranker.device)
@@ -365,13 +357,7 @@ def main(params):
                     context_input, candidate_input = context_input.to(device), candidate_input.to(device)
                     #compute new loss
                     meta_reranker.eval()
-                    # new_acc = get_acc(meta_reranker,meta_dataloader)
-                    # print("new_acc:",new_acc)
                     new_meta_loss = 0
-                    # for i in range(len(meta_samples)//train_batch_size):#应该正好整除
-                    # meta_batch = meta_manager.generate_meta_inputs()
-                    # meta_batch = tuple(t.to(cuda1) for t in meta_batch)
-                    # context_meta, candidate_meta, _, _ = meta_batch
                     with torch.no_grad():
                         meta_loss, _ = meta_reranker(context_meta, candidate_meta)
                     new_meta_loss += meta_loss.item()
@@ -417,7 +403,6 @@ def main(params):
                             logger.info("\n")
                         valid_step += 1
                         tot_valid_step += 1
-                # print(step,valid_step,valid_step//train_batch_size)
                 logger.info("track accepted ratio:"+str(step)+" "+str(valid_step)+" "+str(valid_step//train_batch_size))
                 logger.info("ori_loss:"+str(ori_meta_loss))
         else:
@@ -472,8 +457,6 @@ def main(params):
 
         best_score = ls[np.argmax(ls)]
         best_epoch_idx = li[np.argmax(ls)]
-        # best_score = ls[np.argmin(ls)]
-        # best_epoch_idx = li[np.argmin(ls)]
         logger.info("\n")
 
         # if results > ori_best_score:
@@ -482,8 +465,6 @@ def main(params):
             model_output_path, "epoch_{}".format(epoch_idx)
         )
         utils.save_model(model, tokenizer, epoch_output_folder_path)
-
-        # output_eval_file = os.path.join(epoch_output_folder_path, "eval_results.txt")
 
     execution_time = (time.time() - time_start) / 60
     utils.write_to_file(
