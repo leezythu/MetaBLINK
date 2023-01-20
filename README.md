@@ -25,7 +25,7 @@ python filter.py
 ```
 ## Model Training
 The model training procedure is almost the same as BLINK model. You can refer its repository for training details.
-
 ## Meta Learning
 In our paper, we apply the meta-learning technique on BLINK. Please goto the `Meta-Learning` folder for more details.
-
+## Troubleshooting
+If you have any question, please create an issue here.
