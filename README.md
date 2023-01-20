@@ -14,7 +14,7 @@ Firstly, we collect training and validation data from the original dataset to tr
 cd MR
 python gen_data.py 
 ```
-We use the huggingface's scripts to {unsupervised training}[https://huggingface.co/docs/transformers/model_doc/t5] or {fine-tune}[https://github.com/huggingface/transformers/tree/main/examples/pytorch/summarization] T5.
+We use the huggingface's scripts to [unsupervised training](https://huggingface.co/docs/transformers/model_doc/t5) or [fine-tune](https://github.com/huggingface/transformers/tree/main/examples/pytorch/summarization) T5.
 
 Then you can rewrite the exact matching data using fine-tuned T5.
 And further filter out mistakes by running:
